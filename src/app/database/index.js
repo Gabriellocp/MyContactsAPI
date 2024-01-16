@@ -12,8 +12,8 @@ const db = new Client({
 
 db.connect()
 
-exports.query = async (exp) => {
-  const rows = await db.query(exp)
+exports.query = async (exp, values) => {
+  const rows = await db.query(exp, values)
   console.log(rows)
   return rows
 }
