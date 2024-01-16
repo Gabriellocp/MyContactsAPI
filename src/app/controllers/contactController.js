@@ -19,12 +19,12 @@ class ContactController {
     const { name, email, phone, categoryId } = request.body
 
     if (!name || !email) {
-      return response.json({ error: 'Name and email are required' })
+      return response.status(404).json({ error: 'Name and email are required' })
     }
     // Add validation for pre-existing email
     const emailExists = await ContactRepository.findByEmail(email)
     if (emailExists) {
-      return response.json({ error: 'This email is already registered' })
+      return response.status(404).json({ error: 'This email is already registered' })
     }
     const newContact = await ContactRepository.create({ name, email, phone, categoryId })
     return response.json(newContact)
@@ -35,20 +35,20 @@ class ContactController {
     const { name, email, phone, categoryId } = request.body
     const contactExists = await ContactRepository.findById(id)
     if (!contactExists) {
-      return response.json({ error: 'Contact does not exists' })
+      return response.status(404).json({ error: 'Contact does not exists' })
     }
     if (!name || !email) {
-      return response.json({ error: 'Name and email are required' })
+      return response.status(404).json({ error: 'Name and email are required' })
     }
     const emailExists = await ContactRepository.findByEmail(email)
     if (emailExists && emailExists.id === id) {
-      return response.json({ error: 'This email is already in use' })
+      return response.status(404).json({ error: 'This email is already in use' })
     }
     const updatedContact = await ContactRepository.update({ id, name, email, phone, categoryId })
     return response.json(updatedContact)
   }
 
-  delete () {
+  delete (request, response) {
 
   }
 }
