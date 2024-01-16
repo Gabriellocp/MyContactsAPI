@@ -30,8 +30,22 @@ class ContactController {
     return response.json(newContact)
   }
 
-  update () {
-
+  async update (request, response) {
+    const { id } = request.params
+    const { name, email, phone, categoryId } = request.body
+    const contactExists = await ContactRepository.findById(id)
+    if (!contactExists) {
+      return response.json({ error: 'Contact does not exists' })
+    }
+    if (!name || !email) {
+      return response.json({ error: 'Name and email are required' })
+    }
+    const emailExists = await ContactRepository.findByEmail(email)
+    if (emailExists && emailExists.id === id) {
+      return response.json({ error: 'This email is already in use' })
+    }
+    const updatedContact = await ContactRepository.update({ id, name, email, phone, categoryId })
+    return response.json(updatedContact)
   }
 
   delete () {
