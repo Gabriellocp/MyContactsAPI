@@ -17,3 +17,8 @@ CREATE TABLE IF NOT EXISTS contacts (
     category_id UUID,
     FOREIGN KEY(category_id) REFERENCES category(id)
 );
+
+-- Change ON DELETE to delete all references when category is deleted
+ALTER TABLE contacts DROP CONSTRAINT contacts_category_id_fkey;
+ALTER TABLE contacts ADD CONSTRAINT contacts_category_id_fkey 
+FOREIGN KEY(category_id) REFERENCES category(id) ON DELETE SET NULL;

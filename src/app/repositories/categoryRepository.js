@@ -36,6 +36,13 @@ class CategoryRepository {
     `, [name, id])
     return updatedCategory
   }
+
+  async delete (id) {
+    const deleted = await db.query(`
+        DELETE FROM category WHERE id = $1
+    `, [id])
+    return deleted
+  }
 }
 
 module.exports = new CategoryRepository()
