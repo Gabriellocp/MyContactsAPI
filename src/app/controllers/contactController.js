@@ -48,8 +48,11 @@ class ContactController {
     return response.json(updatedContact)
   }
 
-  delete (request, response) {
+  async delete (request, response) {
+    const { id } = request.params
 
+    await ContactRepository.delete(id)
+    return response.sendStatus(204)
   }
 }
 // Singleton

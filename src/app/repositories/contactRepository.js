@@ -36,6 +36,13 @@ class ContactRepository {
     `, [name, email, phone, categoryId, id])
     return row
   }
+
+  async delete (id) {
+    const deleted = await db.query(`
+        DELETE FROM contacts WHERE id = $1
+    `, [id])
+    return deleted
+  }
 }
 
 module.exports = new ContactRepository()
