@@ -11,4 +11,5 @@ router.delete('/contacts/:id', contactController.delete)
 
 // Categories routes
 router.get('/categories', categoryController.index)
+router.post('/categories', categoryController.store)
 module.exports = router

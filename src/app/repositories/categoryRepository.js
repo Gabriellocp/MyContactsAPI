@@ -6,6 +6,14 @@ class CategoryRepository {
         `)
     return categories
   }
+
+  async create ({ name }) {
+    const createdCategory = await db.query(`
+        INSERT INTO category(name) VALUES($1)
+        RETURNING *
+    `, [name])
+    return createdCategory
+  }
 }
 
 module.exports = new CategoryRepository()
