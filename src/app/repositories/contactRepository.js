@@ -3,7 +3,8 @@ const db = require('../database')
 class ContactRepository {
   async findAll (orderBy = 'asc') {
     const order = orderBy === 'desc' ? 'DESC' : 'ASC'
-    await db.query(`SELECT * FROM contacts ORDER BY name ${order};`)
+    const contacts = await db.query(`SELECT * FROM contacts ORDER BY name ${order};`)
+    return contacts
   }
 
   async findByEmail (email) {
@@ -11,6 +12,13 @@ class ContactRepository {
         SELECT * FROM contacts WHERE email = $1
     `, [email])
     return emailExists
+  }
+
+  async findById (id) {
+    const [contact] = await db.query(`
+        SELECT * FROM contacts where id = $1
+    `, [id])
+    return contact
   }
 
   async create ({ name, email, phone, categoryId }) {
