@@ -15,8 +15,22 @@ class CategoryController {
     return response.json(createdCategory)
   }
 
-  update () {
-
+  async update (request, response) {
+    const { id } = request.params
+    const { name } = request.body
+    if (!name) {
+      return response.status(400).json({ error: 'Name is required' })
+    }
+    const category = await CategoryRepository.findById(id)
+    if (!category) {
+      return response.status(400).json({ error: 'Category does not exists' })
+    }
+    const categoryExists = await CategoryRepository.findByName(name)
+    if (categoryExists) {
+      return response.status(400).json({ error: 'Category already exists' })
+    }
+    const updateCategory = await CategoryRepository.update({ id, name })
+    return response.json(updateCategory)
   }
 
   delete () {
