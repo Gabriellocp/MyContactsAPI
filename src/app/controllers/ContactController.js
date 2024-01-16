@@ -5,14 +5,14 @@
  * Update => Updates an existing contact
  * Delete => Deletes an existing contact
  */
-const contacts = [
-  { name: 'Gabriel', age: 26 },
-  { name: 'Matheus', age: 26 },
-  { name: 'José', age: 32 }
-]
+const ContactRepository = require('../repositories/contactRepository')
 class ContactController {
   index (request, response) {
-    response.json(contacts)
+    const { order } = request.params
+
+    const contacts = ContactRepository.findAll(order)
+
+    return response.json(contacts)
   }
 
   store () {

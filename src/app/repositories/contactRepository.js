@@ -1,9 +1,9 @@
 const db = require('../database')
 
 class ContactRepository {
-  findAll (orderBy) {
-    const order = orderBy === 'desc' ? 'desc' : 'asc'
-    db.query(`SELECT * FROM contacts ORDER BY ${order}`)
+  async findAll (orderBy = 'asc') {
+    const order = orderBy === 'desc' ? 'DESC' : 'ASC'
+    await db.query(`SELECT * FROM contacts ORDER BY name ${order}`)
   }
 }
 
