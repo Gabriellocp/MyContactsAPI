@@ -13,7 +13,6 @@ const db = new Client({
 db.connect()
 
 exports.query = async (exp, values) => {
-  const rows = await db.query(exp, values)
-  console.log(rows)
-  return rows
+  const command = await db.query(exp, values)
+  return command.rows
 }
