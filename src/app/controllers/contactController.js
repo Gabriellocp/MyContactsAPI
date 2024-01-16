@@ -22,7 +22,10 @@ class ContactController {
       return response.json({ error: 'Name and email are required' })
     }
     // Add validation for pre-existing email
-
+    const emailExists = await ContactRepository.findByEmail(email)
+    if (emailExists) {
+      return response.json({ error: 'This email is already registered' })
+    }
     const newContact = await ContactRepository.create({ name, email, phone, categoryId })
     return response.json(newContact)
   }
