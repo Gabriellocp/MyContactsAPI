@@ -7,16 +7,24 @@
  */
 const ContactRepository = require('../repositories/contactRepository')
 class ContactController {
-  index (request, response) {
+  async index (request, response) {
     const { order } = request.params
 
-    const contacts = ContactRepository.findAll(order)
+    const contacts = await ContactRepository.findAll(order)
 
     return response.json(contacts)
   }
 
-  store () {
+  async store (request, response) {
+    const { name, email, phone, categoryId } = request.body
 
+    if (!name || !email) {
+      return response.json({ error: 'Name and email are required' })
+    }
+    // Add validation for pre-existing email
+
+    const newContact = await ContactRepository.create({ name, email, phone, categoryId })
+    return response.json(newContact)
   }
 
   update () {
