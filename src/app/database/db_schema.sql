@@ -22,3 +22,5 @@ CREATE TABLE IF NOT EXISTS contacts (
 ALTER TABLE contacts DROP CONSTRAINT contacts_category_id_fkey;
 ALTER TABLE contacts ADD CONSTRAINT contacts_category_id_fkey 
 FOREIGN KEY(category_id) REFERENCES category(id) ON DELETE SET NULL;
+-- Change email column to be UNIQUE
+ALTER TABLE contacts ADD UNIQUE (email);
